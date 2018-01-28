@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+    <title>百川PT邀请码管理平台</title>
+
+</head>
+<body>
+<div class="container-fluid headers">
+    <div class="container">
+        <div class="media">
+            <div class="media-left media-middle">
+                <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNjEyMWI1NDEzOCB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE2MTIxYjU0MTM4Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMy4xNzk2ODc1IiB5PSIzNi41NTYyNSI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" alt="BCPT">
+            </div>
+            <div class="media-body">
+                <h1 class="media-heading">百川PT邀请码管理平台</h1>
+                <p>海纳百川，高速分享</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fa fa-home feather" aria-hidden="true"></i>
+                            总览 <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-list-ol feather" aria-hidden="true"></i>
+                            总申请列表
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-check-square-o feather" aria-hidden="true"></i>
+                            待处理列表
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-exclamation-triangle feather" aria-hidden="true"></i>
+                            问题列表
+                        </a>
+                    </li>
+                </ul>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>其他选项</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-sign-out feather" aria-hidden="true"></i>
+                            退出登录
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="col">
+            <div class="card-group p-2">
+
+                <div class="card">
+                    <div class="card-header">
+                        当前数据
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr class="table-primary">
+                                <th>总申请人数</th>
+                                <td>168</td>
+                            </tr>
+                            <tr class="table-success">
+                                <th>已通过人数</th>
+                                <td>168</td>
+                            </tr>
+                            <tr class="table-warning">
+                                <th>未通过人数</th>
+                                <td>168</td>
+                            </tr>
+                            <tr class="table-danger">
+                                <th>有异常人数</th>
+                                <td>168</td>
+                            </tr>
+                            <tr class="table-info">
+                                <th>未审核人数</th>
+                                <td>168</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        数据监控-男女比例
+                    </div>
+                    <div class="card-body">
+                        <canvas id="sex"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        数据监控-申请通过比例
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pass"></canvas>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-group p-2">
+
+                <div class="card">
+                    <div class="card-header">
+                        数据监控-申请态势
+                    </div>
+                    <div class="card-body">
+                        <canvas id="post"></canvas>
+                    </div>
+                </div>
+
+                <div class="card col-sm-4" style="padding: 0;">
+                    <div class="card-header">
+                        操作选择
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#"><i class="fa fa-list-ol feather" aria-hidden="true"></i>查看总申请列表</a></li>
+                            <li class="list-group-item"><a href="#"><i class="fa fa-check-square-o feather" aria-hidden="true"></i>查看待处理列表</a></li>
+                            <li class="list-group-item"><a href="#"><i class="fa fa-exclamation-triangle feather" aria-hidden="true"></i>查看有问题列表</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="container-fluid footers">
+    <div class="container">
+        <!--<info></info>-->
+
+        <p>&copy;百川PT-哈尔滨工业大学</p>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
+<script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+
+<script>
+    var datasex = {
+        datasets: [{
+            data: [10, 30],
+            backgroundColor: [
+                window.chartColors.red,
+                window.chartColors.green,
+            ],
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            '女生',
+            '男生',
+        ],
+    };
+    var dataPass = {
+        datasets: [{
+            data: [10,12,13,30],
+            backgroundColor: [
+                window.chartColors.red,
+                window.chartColors.green,
+                window.chartColors.purple,
+                window.chartColors.blue,
+            ],
+        }],
+        labels: [
+            '通过',
+            '未通过',
+            '异常',
+            '待审核',
+        ],
+    };
+
+    var post = {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "申请量",
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [
+                    11,12,8,6,21,43,21
+                ],
+                fill: false,
+            }, {
+                label: "审核量",
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [
+                    10,15,2,1,3,22,7
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                }],
+                yAxes: [{
+                    display: true,
+                }]
+            }
+        }
+    };
+
+    window.onload = function(){
+        var ctxSex = document.getElementById("sex").getContext("2d");
+        var chartSex = new Chart(ctxSex,{
+            type:'doughnut',
+            data:datasex,
+        });
+        var ctxPass = document.getElementById("pass").getContext("2d");
+        var chartPass = new Chart(ctxPass,{
+            type:'doughnut',
+            data:dataPass,
+        });
+        var ctxPost = document.getElementById("post").getContext("2d");
+        var chartPost = new Chart(ctxPost,post);
+    }
+</script>
+
+</body>
+
+</html>

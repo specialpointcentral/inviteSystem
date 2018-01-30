@@ -50,7 +50,7 @@ function dashBoard($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://localhost/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=dashBoard";
+    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=dashBoard";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -266,7 +266,7 @@ function totalList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://localhost/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=totalList";
+    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=totalList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -304,6 +304,39 @@ for($i=0;$i<$result['data']['num'];) {
 EOF;
     $html.=$htmls;
 }
+$model=<<<EOF
+<div class="modal fade" id="infoDetail" tabindex="-1" role="dialog" aria-labelledby="infoDetailTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoDetailTitle">详细信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="infoDetailName">姓名：</p>
+                <p id="infoDetailSex">性别：</p>
+                <p id="infoDetailPhone">手机号码：</p>
+                <p id="infoDetailTime">做种时间：</p>
+                <p id="infoDetailDisk">硬盘大小：</p>
+                <p id="infoDetailEmail">邮箱：</p>
+                <p id="infoDetailId">学号：</p>
+                <p id="infoDetailShcool">学校/学院：</p>
+                <p id="infoDetailWork">工作：</p>
+                <p id="infoDetailPostTime">提交时间：</p>
+                <p id="infoDetailIp">提交IP：</p>
+                <p id="infoDetailFavorite">喜好：</p>
+                <p id="infoDetailReason">加入理由：</p>
+                <p id="infoDetailOther">备注：</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+EOF;
 
     $html=<<<EOF
 <table class="table table-hover table-striped table-bordered">
@@ -321,11 +354,62 @@ EOF;
     {$html}
     </tbody>
 </table>
+{$model}
+EOF;
+
+$script=<<<EOF
+<script>
+    function showDetail(id){
+        $.ajax({
+            async: true,   //是否为异步请求
+            cache: false,  //是否缓存结果
+            type: "GET", //请求方式
+            dataType: "json",   //服务器返回的数据是什么类型
+            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            data: {
+                publickey:"{$result['data']['passkey']['publicKey']}",
+                passkey:"{$result['data']['passkey']['passKey']}",
+                timeStamp:"{$result['data']['passkey']['timeStamp']}",
+                require:"getData",
+                id:id,
+            },
+            success: function (result) {
+                if(result.code==200) {
+                    //成功
+                    $('#infoDetailName').text("姓名："+result.data.dataList.name);
+                    $('#infoDetailSex').text("性别："+result.data.dataList.sex);
+                    $('#infoDetailPhone').text("手机号码："+result.data.dataList.phone);
+                    $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
+                    $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
+                    $('#infoDetailEmail').text("Email："+result.data.dataList.email);
+                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
+                    $('#infoDetailWork').text("工作："+result.data.dataList.work);
+                    $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
+                    $('#infoDetailIp').text("IP："+result.data.dataList.ip);
+                    $('#infoDetailFavorite').text("喜好："+result.data.dataList.favorite);
+                    $('#infoDetailReason').text("加入原因："+result.data.dataList.reason);
+                    $('#infoDetailOther').text("备注："+result.data.dataList.other);
+                    
+                    $('#infoDetail').modal('show');
+                }else{
+                    //alert(result.code+":"+result.msg);
+                    swal(result.msg,"("+result.code+") "+result.info,"warning");
+                }
+            },
+            error : function() {
+                //alert("异常！");
+                swal("发生异常","Ajax服务异常，请联系管理员","error");
+            }
+        });
+
+    }
+</script>
 EOF;
 
     $return=array(
         'html'=>$html,
-        'script'=>'',
+        'script'=>$script,
     );
     return $return;
 
@@ -340,7 +424,7 @@ function unCheckList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://localhost/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=unCheckList";
+    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=unCheckList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -364,7 +448,39 @@ function unCheckList($page){
 EOF;
         $html.=$htmls;
     }
-
+    $model=<<<EOF
+<div class="modal fade" id="infoDetail" tabindex="-1" role="dialog" aria-labelledby="infoDetailTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoDetailTitle">详细信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="infoDetailName">姓名：</p>
+                <p id="infoDetailSex">性别：</p>
+                <p id="infoDetailPhone">手机号码：</p>
+                <p id="infoDetailTime">做种时间：</p>
+                <p id="infoDetailDisk">硬盘大小：</p>
+                <p id="infoDetailEmail">邮箱：</p>
+                <p id="infoDetailId">学号：</p>
+                <p id="infoDetailShcool">学校/学院：</p>
+                <p id="infoDetailWork">工作：</p>
+                <p id="infoDetailPostTime">提交时间：</p>
+                <p id="infoDetailIp">提交IP：</p>
+                <p id="infoDetailFavorite">喜好：</p>
+                <p id="infoDetailReason">加入理由：</p>
+                <p id="infoDetailOther">备注：</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+EOF;
     $html=<<<EOF
 <table class="table table-hover table-striped table-bordered">
     <thead>
@@ -382,11 +498,90 @@ EOF;
     {$html}
     </tbody>
 </table>
+{$model}
 EOF;
+    $script=<<<EOF
+<script>
+    function showDetail(id){
+        $.ajax({
+            async: true,   //是否为异步请求
+            cache: false,  //是否缓存结果
+            type: "GET", //请求方式
+            dataType: "json",   //服务器返回的数据是什么类型
+            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            data: {
+                publickey:"{$result['data']['passkey']['publicKey']}",
+                passkey:"{$result['data']['passkey']['passKey']}",
+                timeStamp:"{$result['data']['passkey']['timeStamp']}",
+                require:"getData",
+                id:id,
+            },
+            success: function (result) {
+                if(result.code==200) {
+                    //成功                   
+                    $('#infoDetailName').text("姓名："+result.data.dataList.name);
+                    $('#infoDetailSex').text("性别："+result.data.dataList.sex);
+                    $('#infoDetailPhone').text("手机号码："+result.data.dataList.phone);
+                    $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
+                    $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
+                    $('#infoDetailEmail').text("Email："+result.data.dataList.email);
+                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
+                    $('#infoDetailWork').text("工作："+result.data.dataList.work);
+                    $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
+                    $('#infoDetailIp').text("IP："+result.data.dataList.ip);
+                    $('#infoDetailFavorite').text("喜好："+result.data.dataList.favorite);
+                    $('#infoDetailReason').text("加入原因："+result.data.dataList.reason);
+                    $('#infoDetailOther').text("备注："+result.data.dataList.other);
+                    
+                    $('#infoDetail').modal('show');
+                }else{
+                    //alert(result.code+":"+result.msg);
+                    swal(result.msg,"("+result.code+") "+result.info,"warning");
+                }
+            },
+            error : function() {
+                //alert("异常！");
+                swal("发生异常","Ajax服务异常，请联系管理员","error");
+            }
+        });
 
+    }
+    function passCheck(id){
+        $.ajax({
+            async: true,   //是否为异步请求
+            cache: false,  //是否缓存结果
+            type: "GET", //请求方式
+            dataType: "json",   //服务器返回的数据是什么类型
+            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            data: {
+                publickey:"{$result['data']['passkey']['publicKey']}",
+                passkey:"{$result['data']['passkey']['passKey']}",
+                timeStamp:"{$result['data']['passkey']['timeStamp']}",
+                require:"submit",
+                id:id,
+            },
+            success: function (result) {
+                if(result.code==200) {
+                    //成功
+                    swal("成功啦~","","success");
+                }else{
+                    //alert(result.code+":"+result.msg);
+                    swal(result.msg,"("+result.code+") "+result.info,"warning");
+                }
+            },
+            error : function() {
+                //alert("异常！");
+                swal("发生异常","Ajax服务异常，请联系管理员","error");
+            }
+        });
+
+    }
+</script>
+EOF;
     $return=array(
         'html'=>$html,
-        'script'=>'',
+        'script'=>$script,
     );
     return $return;
 }
@@ -400,7 +595,7 @@ function problemList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://localhost/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=problemList";
+    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=problemList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -424,7 +619,39 @@ function problemList($page){
 EOF;
         $html.=$htmls;
     }
-
+    $model=<<<EOF
+<div class="modal fade" id="infoDetail" tabindex="-1" role="dialog" aria-labelledby="infoDetailTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoDetailTitle">详细信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="infoDetailName">姓名：</p>
+                <p id="infoDetailSex">性别：</p>
+                <p id="infoDetailPhone">手机号码：</p>
+                <p id="infoDetailTime">做种时间：</p>
+                <p id="infoDetailDisk">硬盘大小：</p>
+                <p id="infoDetailEmail">邮箱：</p>
+                <p id="infoDetailId">学号：</p>
+                <p id="infoDetailShcool">学校/学院：</p>
+                <p id="infoDetailWork">工作：</p>
+                <p id="infoDetailPostTime">提交时间：</p>
+                <p id="infoDetailIp">提交IP：</p>
+                <p id="infoDetailFavorite">喜好：</p>
+                <p id="infoDetailReason">加入理由：</p>
+                <p id="infoDetailOther">备注：</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+EOF;
     $html=<<<EOF
 <table class="table table-hover table-striped table-bordered">
     <thead>
@@ -442,11 +669,60 @@ EOF;
     {$html}
     </tbody>
 </table>
+{$model}
 EOF;
+    $script=<<<EOF
+<script>
+    function showDetail(id){
+        $.ajax({
+            async: true,   //是否为异步请求
+            cache: false,  //是否缓存结果
+            type: "GET", //请求方式
+            dataType: "json",   //服务器返回的数据是什么类型
+            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            data: {
+                publickey:"{$result['data']['passkey']['publicKey']}",
+                passkey:"{$result['data']['passkey']['passKey']}",
+                timeStamp:"{$result['data']['passkey']['timeStamp']}",
+                require:"getData",
+                id:id,
+            },
+            success: function (result) {
+                if(result.code==200) {
+                    //成功
+                    $('#infoDetailName').text("姓名："+result.data.dataList.name);
+                    $('#infoDetailSex').text("性别："+result.data.dataList.sex);
+                    $('#infoDetailPhone').text("手机号码："+result.data.dataList.phone);
+                    $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
+                    $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
+                    $('#infoDetailEmail').text("Email："+result.data.dataList.email);
+                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
+                    $('#infoDetailWork').text("工作："+result.data.dataList.work);
+                    $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
+                    $('#infoDetailIp').text("IP："+result.data.dataList.ip);
+                    $('#infoDetailFavorite').text("喜好："+result.data.dataList.favorite);
+                    $('#infoDetailReason').text("加入原因："+result.data.dataList.reason);
+                    $('#infoDetailOther').text("备注："+result.data.dataList.other);
+                    
+                    $('#infoDetail').modal('show');
+                }else{
+                    //alert(result.code+":"+result.msg);
+                    swal(result.msg,"("+result.code+") "+result.info,"warning");
+                }
+            },
+            error : function() {
+                //alert("异常！");
+                swal("发生异常","Ajax服务异常，请联系管理员","error");
+            }
+        });
 
+    }
+</script>
+EOF;
     $return=array(
         'html'=>$html,
-        'script'=>'',
+        'script'=>$script,
     );
     return $return;
 }

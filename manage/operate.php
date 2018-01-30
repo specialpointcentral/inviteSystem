@@ -6,31 +6,96 @@
  * Time: 0:34
  */
 require_once("../config.php");
+require_once("checkOperate.php");
+header('Access-Control-Allow-Origin:*');
 date_default_timezone_set("Asia/Shanghai");
-//first identify the key
-$secretKey="y4wZttOy7Sbyrunh";
-$passkey=$_GET['passkey'];
-$publicKey=sha1($_GET['publickey']);
-$timeStamp=$_GET['timeStamp'];
 
-if(abs($timeStamp-time())>30){
+if(!isset($_GET['require'])&&!isset($_GET['passkey'])&&!isset($_GET['timeStamp'])&&!isset($_GET['publickey'])){
     $echo = array(
-        'code' => '403',
-        'info'=>'timeStamp is wrong',
-        'msg' => '时间戳过长，访问被拒绝',
+        'code' => '400',
+        'info'=>'post information is incorrect',
+        'msg' => '参数不完整',
         'data' => 'NULL',
     );
     echo json_encode($echo);
     exit();
-}else if(md5($publicKey.$timeStamp.$secretKey)!=$passkey){
-    $echo = array(
-        'code' => '403',
-        'info'=>'passKey is not correct',
-        'msg' => '密钥不正确，访问被拒绝',
-        'data' => 'NULL',
-    );
-    echo json_encode($echo);
-    exit();
+}
+//first identify the key
+if($_GET['require']!='getData' && $_GET['require']!='submit'){
+    $secretKey="y4wZttOy7Sbyrunh";
+    $passkey=$_GET['passkey'];
+    $publicKey=sha1($_GET['publickey']);
+    $timeStamp=$_GET['timeStamp'];
+    if(abs($timeStamp-time())>30){
+        $echo = array(
+            'code' => '403',
+            'info'=>'timeStamp is wrong',
+            'msg' => '时间戳过长，访问被拒绝',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        exit();
+    }else if(md5($publicKey.$timeStamp.$secretKey)!=$passkey){
+        $echo = array(
+            'code' => '403',
+            'info'=>'passkey is not correct',
+            'msg' => '密钥不正确，访问被拒绝',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        exit();
+    }
+}else{
+    //require is 'getData',we will get passkey from database
+    $publicKey=base64_encode($_GET['publickey']);
+    $timeStamp=(int)$_GET['timeStamp'];
+
+    $db=new mysqli($config["SQL_URL"], $config["SQL_User"], $config["SQL_Password"], $config["SQL_Database"], $config["SQL_Port"]);
+    if($db->connect_error){
+        $echo = array(
+            'code' => '500',
+            'info'=>'cannot connect database | '.$db->connect_error,
+            'msg' => '数据库错误',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        exit();
+    }
+    $sql="SELECT privateKey FROM tbl_identify WHERE timeStamp = '".$timeStamp."' AND publicKey = '".$publicKey."'";
+    $result=$db->query($sql);
+    if($result->num_rows!=1){
+        $echo = array(
+            'code' => '403',
+            'info'=>'for security,system is forbidden this session',
+            'msg' => '有伪造风险，系统已禁止此次访问',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        $db->close();
+        exit();
+    }
+    $row=$result->fetch_assoc();
+    $db->close();
+
+    if(abs($timeStamp-time())>300){
+        $echo = array(
+            'code' => '403',
+            'info'=>'timeStamp is wrong',
+            'msg' => '时间戳过长，访问被拒绝',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        exit();
+    }else if(md5($_GET['passkey'])!=$row['privateKey']){
+        $echo = array(
+            'code' => '403',
+            'info'=>'passkey is not correct',
+            'msg' => '密钥不正确，访问被拒绝',
+            'data' => 'NULL',
+        );
+        echo json_encode($echo);
+        exit();
+    }
 }
 
 $db=new mysqli($config["SQL_URL"], $config["SQL_User"], $config["SQL_Password"], $config["SQL_Database"], $config["SQL_Port"]);
@@ -67,9 +132,25 @@ switch ($_GET['require']){
                 'data' => 'NULL',
             );
             echo json_encode($echo);
+            $db->close();
             exit();
         }else
+
             getDetail($db,(int)$_GET['id']);
+        break;
+    case 'submit':
+        if(!isset($_GET['id'])){
+            $echo = array(
+                'code' => '400',
+                'info'=>'post information is incorrect(id)',
+                'msg' => '提交参数id错误',
+                'data' => 'NULL',
+            );
+            echo json_encode($echo);
+            $db->close();
+            exit();
+        }else
+            passTheCheck($db,(int)$_GET['id']);
         break;
     default:
         $echo = array(
@@ -79,6 +160,7 @@ switch ($_GET['require']){
             'data' => 'NULL',
         );
         echo json_encode($echo);
+        $db->close();
         exit();
 }
 
@@ -90,18 +172,18 @@ $db->close();
  *
  */
 function dashBoard(mysqli $db){
-/**
- * $all 总人数
- * $pass 通过 1
- * $error 异常 -1
- * $unCheck 未审核 0
- * $notPass 未通过 2
- *
- * $boy 男生
- * $girl 女生
- *
- * $array return to
- */
+    /**
+     * $all 总人数
+     * $pass 通过 1
+     * $error 异常 -1
+     * $unCheck 未审核 0
+     * $notPass 未通过 2
+     *
+     * $boy 男生
+     * $girl 女生
+     *
+     * $array return to
+     */
     $sql="SELECT * FROM tbl_apply WHERE status ='1'";
     $result=$db->query($sql);
     $pass=$result->num_rows;
@@ -194,6 +276,7 @@ function totalList(mysqli $db){
         array_push($list,$get);
     }
     $totle=count($list);
+    $keyArray=securityCheck($db);
     $return=array(
         'code' => '200',
         'info'=>'Get the data',
@@ -202,6 +285,7 @@ function totalList(mysqli $db){
     $return['data']=array(
         'num'=>$totle,
         'dataList'=>$list,
+        'passkey'=>$keyArray,
     );
     echo json_encode($return);
 }
@@ -233,6 +317,7 @@ function unCheckList(mysqli $db){
         array_push($list,$get);
     }
     $totle=count($list);
+    $keyArray=securityCheck($db);
     $return=array(
         'code' => '200',
         'info'=>'Get the data',
@@ -241,6 +326,7 @@ function unCheckList(mysqli $db){
     $return['data']=array(
         'num'=>$totle,
         'dataList'=>$list,
+        'passkey'=>$keyArray,
     );
     echo json_encode($return);
 }
@@ -272,6 +358,7 @@ function problemList(mysqli $db){
         array_push($list,$get);
     }
     $totle=count($list);
+    $keyArray=securityCheck($db);
     $return=array(
         'code' => '200',
         'info'=>'Get the data',
@@ -280,6 +367,7 @@ function problemList(mysqli $db){
     $return['data']=array(
         'num'=>$totle,
         'dataList'=>$list,
+        'passkey'=>$keyArray,
     );
     echo json_encode($return);
 }
@@ -299,6 +387,7 @@ function getDetail(mysqli $db,$id){
     $sql="SELECT * FROM tbl_apply WHERE id = $id";
     $result=$db->query($sql);
     $row=$result->fetch_assoc();
+
     $get=array(
         'id'=>$row['id'],
         'name'=>base64_decode($row['name']),
@@ -315,20 +404,70 @@ function getDetail(mysqli $db,$id){
         'work'=>base64_decode($row['work']),
         'postTime'=>$row['postTime'],
         'ip'=>base64_decode($row['ip']),
-        'checkTime'=>base64_decode($row['checkTime']),
+        'checkTime'=>$row['checkTime'],
+        'email'=>base64_decode($row['email']),
     );
     $return=array(
         'code' => '200',
         'info'=>'Get the data',
         'msg' => '获取到数据',
     );
+
     $return['data']=array(
         'num'=>count($get),
         'dataList'=>$get,
     );
+
     echo json_encode($return);
 }
 
-
+function passTheCheck(mysqli $db,$id){
+    $sql="SELECT email FROM tbl_apply WHERE id = $id";
+    $result=$db->query($sql);
+    if($result->num_rows==0){
+        $return=array(
+            'code' => '404',
+            'info'=>'cannot find the information',
+            'msg' => '找不到指定的信息',
+        );
+        echo json_encode($result);
+        exit();
+    }else{
+        $row=$result->fetch_assoc();
+        invite(base64_decode($row['email']));
+    }
+}
+/**
+ * insert key to database
+ * @param mysqli $db
+ * @return array
+ */
+function securityCheck(mysqli $db){
+    /**
+     * timeStamp
+     * publicKey base64
+     * privateKey md5
+     */
+    $time=time();
+    $publicKey="";
+    for ($i = 0; $i < 6; $i++)
+    {
+        $publicKey .= chr(mt_rand(65, 90));
+    }
+    $encodePublicKey=base64_encode($publicKey);
+    $passKey="";
+    for ($i = 0; $i < 6; $i++)
+    {
+        $passKey .= chr(mt_rand(65, 90));
+    }
+    $encodePrivateKey=md5($passKey);
+    $sql="INSERT INTO tbl_identify (timeStamp,publicKey,privateKey) VALUES ('".$time."','".$encodePublicKey."','".$encodePrivateKey."')";
+    $db->query($sql);
+    return array(
+        'timeStamp'=>$time,
+        'passKey'=>$passKey,
+        'publicKey'=>$publicKey,
+    );
+}
 
 ?>

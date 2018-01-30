@@ -12,7 +12,7 @@ date_default_timezone_set("Asia/Shanghai");
 $key="JGYWOjoBIdsIU89HBkkJG";
 if(base64_encode($_GET['key'])!=base64_encode($key)) echo "非法进入";
 else{
-    if($_GET['flag']==1){
+    if(isset($_GET['flag'])&&$_GET['flag']==1){
         //提交发送邮件
         $db=new mysqli($config["SQL_URL"], $config["SQL_User"], $config["SQL_Password"], $config["SQL_Database"], $config["SQL_Port"]);
         if($db->connect_error){
@@ -49,8 +49,20 @@ else{
             exit();
         }
 
-
-
+    }else{
+        //flag不存在，接受post
+        if(!isset($_POST['email'])||!isset($_POST['subject'])||!isset($_POST['title'])||!isset($_POST['msg'])){
+            $echo = array(
+                'code' => '400',
+                'info'=>'post information is incorrect',
+                'msg' => '提交参数错误',
+            );
+            echo json_encode($echo);
+            exit();
+        }
+        mailSend(base64_decode($_POST['email']),base64_decode($_POST['subject']),
+            mailModule(base64_decode($_POST['title']),base64_decode($_POST['msg']),
+                date("Y-m-d H:i",time()),"管理员","http://www.spcsky.com"));
     }
 
 }
@@ -59,7 +71,7 @@ else{
 function mailPost($to,$subject,$message){
 // 当发送 HTML 电子邮件时，请始终设置 content-type
     $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+    $headers .= "Content-type:text/html;charset=utf8" . "\r\n";
     mail($to,$subject,$message,$headers);
 }
 

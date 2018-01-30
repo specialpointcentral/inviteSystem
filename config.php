@@ -13,4 +13,12 @@ $config=array(
     "SQL_Database"=>"test1",
 
 );
+$ptConfig=array(
+    "SQL_URL"=>"localhost",
+    "SQL_User"=>"root",
+    "SQL_Password"=>"",
+    "SQL_Port"=>"3306",
+    "SQL_Database"=>"test1",
+    "url"=>"",
+);
 ?>

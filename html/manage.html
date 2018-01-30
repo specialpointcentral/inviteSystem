@@ -197,9 +197,40 @@
             </table>
         </div>
     </div>
+    <button onclick="$('#infoDetail').modal('show')">a</button>
 </div>
-
-
+<div class="modal fade" id="infoDetail" tabindex="-1" role="dialog" aria-labelledby="infoDetailTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoDetailTitle">{name}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="infoDetailName">姓名：</p>
+                <p id="infoDetailSex">性别：</p>
+                <p id="infoDetailPhone">手机号码：</p>
+                <p id="infoDetailTime">做种时间：</p>
+                <p id="infoDetailDisk">硬盘大小：</p>
+                <p id="infoDetailEmail">邮箱：</p>
+                <p id="infoDetailId">学号：</p>
+                <p id="infoDetailShcool">学校/学院：</p>
+                <p id="infoDetailWork">工作：</p>
+                <p id="infoDetailPostTime">提交时间：</p>
+                <p id="infoDetailIp">提交IP：</p>
+                <p id="infoDetailFavorite">喜好：</p>
+                <p id="infoDetailReason">加入理由：</p>
+                <p id="infoDetailOther">备注：</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button onclick="showDetail(1)">a</button>
 
 <footer class="container-fluid footers">
     <div class="container">
@@ -219,7 +250,46 @@
 <script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
 <script src="chart.js"></script>
+<script>
+    function showDetail(id){
+        $.ajax({
+            async: true,   //是否为异步请求
+            cache: false,  //是否缓存结果
+            type: "GET", //请求方式
+            dataType: "json",   //服务器返回的数据是什么类型
+            url: "http://localhost/operate.php" ,//url
+            data: {
+                publickey:"",
+                passkey:"",
+                timeStamp:"",
+                require:""
 
+            },
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if(result.code==200) {
+                    //成功
+                    $('#btn_submit_in').attr('disabled',false);
+                    $('#btn_submit_in').attr('value','提交');
+                    $('#btn_submit_out').attr('disabled',false);
+                    $('#btn_submit_out').attr('value','提交');
+                }else{
+                    //alert(result.code+":"+result.msg);
+                    swal(result.msg,"("+result.code+") "+result.info,"warning");
+                    $('#btn_submit_in').attr('disabled',false);
+                    $('#btn_submit_in').attr('value','提交');
+                    $('#btn_submit_out').attr('disabled',false);
+                    $('#btn_submit_out').attr('value','提交');
+                }
+            },
+            error : function() {
+                //alert("异常！");
+                swal("发生异常","Ajax服务异常，请联系管理员","error");
+            }
+        });
+
+    }
+</script>
 </body>
 
 </html>

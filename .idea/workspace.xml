@@ -247,8 +247,8 @@
       <file leaf-file-name="checkOperate.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/manage/checkOperate.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1408">
-              <caret line="151" column="18" lean-forward="true" selection-start-line="151" selection-start-column="18" selection-end-line="151" selection-end-column="18" />
+            <state relative-caret-position="1381">
+              <caret line="151" column="18" lean-forward="false" selection-start-line="151" selection-start-column="18" selection-end-line="151" selection-end-column="18" />
               <folding>
                 <marker date="1517326252324" expanded="true" signature="614:679" ph="SELECT * FRO... tbl_apply" />
                 <marker date="1517326252324" expanded="true" signature="1281:1387" ph="UPDATE tbl_apply... " />
@@ -278,22 +278,6 @@
                 <marker date="1517326252324" expanded="true" signature="4712:4761" ph="UPDATE tbl_apply... " />
                 <marker date="1517326252324" expanded="true" signature="4712:4817" ph="UPDATE tbl_apply... " />
                 <marker date="1517326252324" expanded="true" signature="5579:5605" ph="SELECT * FRO... bannedemails" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="emailTest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/manage/emailTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="8" column="76" lean-forward="false" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="76" />
-              <folding>
-                <marker date="1517322459235" expanded="false" signature="368:384" ph="..." />
-                <marker date="1517322459235" expanded="false" signature="431:497" ph="..." />
-                <marker date="1517322459235" expanded="true" signature="499:590" ph="..." />
-                <marker date="1517322459235" expanded="true" signature="499:604" ph="..." />
-                <marker date="1517322459235" expanded="true" signature="624:635" ph="..." />
               </folding>
             </state>
           </provider>
@@ -647,7 +631,7 @@
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="477" />
     <option name="y" value="-9" />
     <option name="width" value="976" />
@@ -768,12 +752,12 @@
       <workItem from="1517295623659" duration="8744000" />
       <workItem from="1517313984627" duration="11610000" />
       <workItem from="1517325862169" duration="8000" />
-      <workItem from="1517326188485" duration="64000" />
+      <workItem from="1517326188485" duration="191000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139744000" />
+    <option name="totallyTimeSpent" value="139871000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -785,10 +769,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1058" extended-state="7" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1938" height="1058" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2387339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2387339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.50214595" order="7" side_tool="true" content_ui="tabs" />
@@ -1474,13 +1457,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
           <caret line="8" column="76" lean-forward="false" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="76" />
-          <folding>
-            <marker date="1517322459235" expanded="false" signature="368:384" ph="..." />
-            <marker date="1517322459235" expanded="false" signature="431:497" ph="..." />
-            <marker date="1517322459235" expanded="true" signature="499:590" ph="..." />
-            <marker date="1517322459235" expanded="true" signature="499:604" ph="..." />
-            <marker date="1517322459235" expanded="true" signature="624:635" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1534,8 +1511,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manage/checkOperate.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1408">
-          <caret line="151" column="18" lean-forward="true" selection-start-line="151" selection-start-column="18" selection-end-line="151" selection-end-column="18" />
+        <state relative-caret-position="1381">
+          <caret line="151" column="18" lean-forward="false" selection-start-line="151" selection-start-column="18" selection-end-line="151" selection-end-column="18" />
           <folding>
             <marker date="1517326252324" expanded="true" signature="614:679" ph="SELECT * FRO... tbl_apply" />
             <marker date="1517326252324" expanded="true" signature="1281:1387" ph="UPDATE tbl_apply... " />

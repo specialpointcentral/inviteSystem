@@ -5,6 +5,7 @@
  * Date: 2018/1/29
  * Time: 21:20
  */
+require_once ('../config.php');
 $page=isset($_GET['page'])?$_GET['page']:"dashBoard";
 switch ($page){
     case 'dashBoard':
@@ -50,7 +51,7 @@ function dashBoard($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=dashBoard";
+    $url = $GLOBALS['config']['url']."/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=dashBoard";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -266,7 +267,7 @@ function totalList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=totalList";
+    $url = $GLOBALS['config']['url']."/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=totalList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -365,7 +366,7 @@ $script=<<<EOF
             cache: false,  //是否缓存结果
             type: "GET", //请求方式
             dataType: "json",   //服务器返回的数据是什么类型
-            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            url: "{$GLOBALS['config']['url']}/manage/operate.php" ,//url
             data: {
                 publickey:"{$result['data']['passkey']['publicKey']}",
                 passkey:"{$result['data']['passkey']['passKey']}",
@@ -382,7 +383,7 @@ $script=<<<EOF
                     $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
                     $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
                     $('#infoDetailEmail').text("Email："+result.data.dataList.email);
-                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailId').text("学号："+result.data.dataList.ids);
                     $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
                     $('#infoDetailWork').text("工作："+result.data.dataList.work);
                     $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
@@ -424,7 +425,7 @@ function unCheckList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=unCheckList";
+    $url = $GLOBALS['config']['url']."/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=unCheckList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -443,7 +444,7 @@ function unCheckList($page){
     <td>{$result['data']['dataList'][$i - 1]['time']}</td>
     <td>{$result['data']['dataList'][$i - 1]['disk']}</td>
     <td><a href="javascript:void(0)" onclick="showDetail({$result['data']['dataList'][$i - 1]['id']})">详细信息</a></td>
-    <td><a href="javascript:void(0)" onclick="passCheck({$result['data']['dataList'][$i - 1]['id']})">通过审核</a></td>
+    <td><a href="javascript:void(0)" id="btn_pass{$result['data']['dataList'][$i - 1]['id']}" onclick="passCheck({$result['data']['dataList'][$i - 1]['id']})">通过审核</a></td>
 </tr>
 EOF;
         $html.=$htmls;
@@ -508,7 +509,7 @@ EOF;
             cache: false,  //是否缓存结果
             type: "GET", //请求方式
             dataType: "json",   //服务器返回的数据是什么类型
-            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            url: "{$GLOBALS['config']['url']}/manage/operate.php" ,//url
             data: {
                 publickey:"{$result['data']['passkey']['publicKey']}",
                 passkey:"{$result['data']['passkey']['passKey']}",
@@ -525,7 +526,7 @@ EOF;
                     $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
                     $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
                     $('#infoDetailEmail').text("Email："+result.data.dataList.email);
-                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailId').text("学号："+result.data.dataList.ids);
                     $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
                     $('#infoDetailWork').text("工作："+result.data.dataList.work);
                     $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
@@ -548,12 +549,15 @@ EOF;
 
     }
     function passCheck(id){
+        $("#btn_pass"+id).attr("disabled",true);  
+        $("#btn_pass"+id).removeAttr('href');//去掉a标签中的href属性
+        $("#btn_pass"+id).removeAttr('onclick');//去掉a标签中的onclick事件
         $.ajax({
             async: true,   //是否为异步请求
             cache: false,  //是否缓存结果
             type: "GET", //请求方式
             dataType: "json",   //服务器返回的数据是什么类型
-            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            url: "{$GLOBALS['config']['url']}/manage/operate.php" ,//url
             data: {
                 publickey:"{$result['data']['passkey']['publicKey']}",
                 passkey:"{$result['data']['passkey']['passKey']}",
@@ -564,14 +568,19 @@ EOF;
             success: function (result) {
                 if(result.code==200) {
                     //成功
+                    $("#btn_pass"+id).text("已发送");
                     swal("成功啦~","","success");
                 }else{
                     //alert(result.code+":"+result.msg);
+                    $("#btn_pass"+id).text(result.msg);
                     swal(result.msg,"("+result.code+") "+result.info,"warning");
                 }
             },
             error : function() {
                 //alert("异常！");
+                $("#btn_pass"+id).attr("disabled",false);  
+                $("#btn_pass"+id).attr("href","javascript:void(0)");//加上a标签中的href属性
+                $("#btn_pass"+id).attr("onclick","passCheck("+id+")");//加上a标签中的onclick事件
                 swal("发生异常","Ajax服务异常，请联系管理员","error");
             }
         });
@@ -595,7 +604,7 @@ function problemList($page){
     }
     $publicKey=base64_encode($publicKey);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
-    $url = "http://pttest.spcsky.com/invite/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=problemList";
+    $url = $GLOBALS['config']['url']."/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=problemList";
     $file_contents = file_get_contents($url);
     $result=json_decode($file_contents,true);
     if($result['code']!=200)
@@ -613,7 +622,7 @@ function problemList($page){
     <td>{$result['data']['dataList'][$i - 1]['type']}</td>
     <td>{$result['data']['dataList'][$i - 1]['time']}</td>
     <td>{$result['data']['dataList'][$i - 1]['disk']}</td>
-    <td>原因</td>
+    <td>{$result['data']['dataList'][$i - 1]['errorList']}</td>
     <td><a href="javascript:void(0)" onclick="showDetail({$result['data']['dataList'][$i - 1]['id']})">详细信息</a></td>
 </tr>
 EOF;
@@ -679,7 +688,7 @@ EOF;
             cache: false,  //是否缓存结果
             type: "GET", //请求方式
             dataType: "json",   //服务器返回的数据是什么类型
-            url: "http://pttest.spcsky.com/invite/manage/operate.php" ,//url
+            url: "{$GLOBALS['config']['url']}/manage/operate.php" ,//url
             data: {
                 publickey:"{$result['data']['passkey']['publicKey']}",
                 passkey:"{$result['data']['passkey']['passKey']}",
@@ -696,7 +705,7 @@ EOF;
                     $('#infoDetailTime').text("做种时间："+result.data.dataList.time);
                     $('#infoDetailDisk').text("硬盘大小："+result.data.dataList.disk);
                     $('#infoDetailEmail').text("Email："+result.data.dataList.email);
-                    $('#infoDetailId').text("学号："+result.data.dataList.id);
+                    $('#infoDetailId').text("学号："+result.data.dataList.ids);
                     $('#infoDetailShcool').text("学校/学院："+result.data.dataList.school);
                     $('#infoDetailWork').text("工作："+result.data.dataList.work);
                     $('#infoDetailPostTime').text("提交时间："+result.data.dataList.postTime);
@@ -729,31 +738,13 @@ EOF;
 function logOut(){
 
 }
+
 /**
- * 获取完整URL
- * @return string
+ * 显示界面
+ * @param $inner array html/script
+ * @param $page this page url
+ * @param $select select which is select
  */
-function curPageURL()
-{
-    $pageURL = 'http';
-
-    if ($_SERVER["HTTPS"] == "on")
-    {
-        $pageURL .= "s";
-    }
-    $pageURL .= "://";
-
-    $this_page = $_SERVER["REQUEST_URI"];
-
-    // 只取 ? 前面的内容
-    if (strpos($this_page, "?") !== false)
-    {
-        $this_pages = explode("?", $this_page);
-        $this_page = reset($this_pages);
-    }
-    $pageURL .= $_SERVER["HTTP_HOST"] . $this_page;
-    return $pageURL;
-}
 function creatHTML($inner,$page,$select){
     $dashBoard="";$totalList="";$unCheckList="";$problemList="";
     switch ($select){

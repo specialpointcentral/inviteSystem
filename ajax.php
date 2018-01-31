@@ -68,7 +68,7 @@ if(getDataIsRight()) {
         //$out = "GET /invite/mail.php?key=".$key."&flag=1&email=".base64_encode($_POST['email']). " HTTP/1.1 \r\n";
 
         //send the mail
-        $sendURL=dirname(curPageURL())."/mail.php";
+        $sendURL=$GLOBALS["config"]["url"]."/mail.php";
         $sendURL.="?key=".$key."&flag=1&email=".base64_encode($_POST['email']);
         request_by_fsockopen($sendURL);
         //---------------
@@ -187,32 +187,6 @@ function real_ip() {
     return $realip;
 }
 
-
-/**
- * 获取完整URL
- * @return string
- */
-function curPageURL()
-{
-    $pageURL = 'http';
-
-    if (isset($_SERVER["HTTPS"])&&$_SERVER["HTTPS"] == "on")
-    {
-        $pageURL .= "s";
-    }
-    $pageURL .= "://";
-
-    $this_page = $_SERVER["REQUEST_URI"];
-
-    // 只取 ? 前面的内容
-    if (strpos($this_page, "?") !== false)
-    {
-        $this_pages = explode("?", $this_page);
-        $this_page = reset($this_pages);
-    }
-        $pageURL .= $_SERVER["HTTP_HOST"] . $this_page;
-    return $pageURL;
-}
 
 /**
  * @param $url 地址

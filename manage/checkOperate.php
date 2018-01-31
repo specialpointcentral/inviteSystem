@@ -44,7 +44,7 @@ function invite($email){
         );
         echo json_encode($echo);
         $postTime=date("Y-m-d H:i:s",time());
-        $sql="UPDATE tbl_apply SET status = '-1' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
+        $sql="UPDATE tbl_apply SET status = '-1' , errorList = '".$echo['msg']."' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
         $db->query($sql);
         exit();
     }
@@ -56,7 +56,7 @@ function invite($email){
         );
         echo json_encode($echo);
         $postTime=date("Y-m-d H:i:s",time());
-        $sql="UPDATE tbl_apply SET status = '-1' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
+        $sql="UPDATE tbl_apply SET status = '-1' , errorList = '".$echo['msg']."' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
         $db->query($sql);
         exit();
     }
@@ -68,7 +68,7 @@ function invite($email){
         );
         echo json_encode($echo);
         $postTime=date("Y-m-d H:i:s",time());
-        $sql="UPDATE tbl_apply SET status = '-1' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
+        $sql="UPDATE tbl_apply SET status = '-1' , errorList = '".$echo['msg']."' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
         $db->query($sql);
         exit();
     }
@@ -82,7 +82,7 @@ function invite($email){
         );
         echo json_encode($echo);
         $postTime=date("Y-m-d H:i:s",time());
-        $sql="UPDATE tbl_apply SET status = '-1' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
+        $sql="UPDATE tbl_apply SET status = '-1' , errorList = '".$echo['msg']."' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
         $db->query($sql);
         exit();
     }
@@ -95,7 +95,7 @@ function invite($email){
         );
         echo json_encode($echo);
         $postTime=date("Y-m-d H:i:s",time());
-        $sql="UPDATE tbl_apply SET status = '-1' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
+        $sql="UPDATE tbl_apply SET status = '-1' , errorList = '".$echo['msg']."' , checkTime = '".$postTime."' WHERE email = '".base64_encode($email)."'";
         $db->query($sql);
         exit();
     }
@@ -111,7 +111,7 @@ function invite($email){
         . date("Y-m-d H:i:s") . "')");
     $name=base64_decode($name);
     $url=$GLOBALS["ptConfig"]["url"]."/signup.php?type=invite&invitenumber=$hash";
-    $sendURL="http://pttest.spcsky.com/invite/mail.php?key=JGYWOjoBIdsIU89HBkkJG";
+    $sendURL=$GLOBALS["config"]["url"]."/mail.php?key=JGYWOjoBIdsIU89HBkkJG";
     $msg="<p>尊敬的{$name}，您好</p>".
         "<p>您的申请我们已经收到并且通过了审核，欢迎您加入百川PT的大家庭！</p>".
         "<p>下面的链接是您的邀请链接，请尽快注册：</p>".
@@ -204,13 +204,11 @@ function sql_query($sql){
             'code' => '500',
             'info'=>'cannot connect database | '.$db->connect_error,
             'msg' => '数据库错误',
-            'data' => 'NULL',
         );
         echo json_encode($echo);
         exit();
     }
     $return=$db->query($sql);
-    echo $db->error;
     $db->close();
     return $return;
 }
@@ -234,29 +232,3 @@ function request_post($url = '', $post_data = array()) {
 
     return $data;
 }
-/**
- * 获取完整URL
- * @return string
- */
-function curPageURL()
-{
-    $pageURL = 'http';
-
-    if (isset($_SERVER["HTTPS"])&&$_SERVER["HTTPS"] == "on")
-    {
-        $pageURL .= "s";
-    }
-    $pageURL .= "://";
-
-    $this_page = $_SERVER["REQUEST_URI"];
-
-    // 只取 ? 前面的内容
-    if (strpos($this_page, "?") !== false)
-    {
-        $this_pages = explode("?", $this_page);
-        $this_page = reset($this_pages);
-    }
-    $pageURL .= $_SERVER["HTTP_HOST"] . $this_page;
-    return $pageURL;
-}
-?>

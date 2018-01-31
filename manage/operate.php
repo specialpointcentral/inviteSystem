@@ -354,6 +354,7 @@ function problemList(mysqli $db){
             'time'=>base64_decode($row['time']),
             'disk'=>base64_decode($row['disk']),
             'id'=>$row['id'],
+            'errorList'=>$row['errorList'],
         );
         array_push($list,$get);
     }

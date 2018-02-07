@@ -858,7 +858,7 @@ function creatHTML($inner,$page,$select){
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
 <script src="https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js"></script>
-<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+<script src="../js/color.js"></script>
 {$script}
 </body>
 

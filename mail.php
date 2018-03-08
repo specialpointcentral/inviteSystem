@@ -31,7 +31,8 @@ else{
             $msg="<p>您好，首先欢迎您申请我们的PT站账号</p>";
             $msg=$msg."<p>以下是您提交的部分信息：</p>";
             $msg=$msg."<ul><li>姓名：".base64_decode($row['name'])."</li><li>性别：".base64_decode($row['sex']).
-                "</li><li>手机号码：".base64_decode($row['phone'])."</li><li>Email：".base64_decode($row['email']).
+                "</li><li>手机号码：".base64_decode(
+                    ['phone'])."</li><li>Email：".base64_decode($row['email']).
                 "</li><li>提交时间：".$row['postTime']."</li><li>提交IP：".base64_decode($row['ip'])."</li></ul>";
             $msg=$msg."<p>在这里我们要提前声明，这里是私有种子站，请您在得到邀请后查看具体规则。</p>";
             $msg=$msg."<p>管理员审核完成后将会通过邮件的方式告知审核结果。</p>";

@@ -265,7 +265,7 @@ function totalList($page){
     {
         $publicKey .= chr(mt_rand(101, 132));
     }
-    $publicKey=base64_encode($publicKey);
+    $publicKey=substr(md5($publicKey),8,16);
     $passkey=md5(sha1($publicKey).$timeStamp.$secretKey);
     $url = $GLOBALS['config']['url']."/manage/operate.php?timeStamp=$timeStamp&publickey=$publicKey&passkey=$passkey&require=totalList";
     $file_contents = file_get_contents($url);
@@ -563,6 +563,7 @@ EOF;
                 passkey:"{$result['data']['passkey']['passKey']}",
                 timeStamp:"{$result['data']['passkey']['timeStamp']}",
                 require:"submit",
+                type:"pass",
                 id:id,
             },
             success: function (result) {

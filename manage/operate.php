@@ -92,6 +92,7 @@ if($_GET['require']!='getData' && $_GET['require']!='submit'){
             'info'=>'passkey is not correct',
             'msg' => '密钥不正确，访问被拒绝',
             'data' => 'NULL',
+            'test' => md5($_GET['passkey']).' '.$row['privateKey'],
         );
         echo json_encode($echo);
         exit();
@@ -150,7 +151,10 @@ switch ($_GET['require']){
             $db->close();
             exit();
         }else
-            passTheCheck($db,(int)$_GET['id']);
+            if($_GET['type']=="pass")
+                passTheCheck($db,(int)$_GET['id']);
+            else if($_GET['type']=="unpass")
+                unPassTheCheck($db,(int)$_GET['id']);
         break;
     default:
         $echo = array(
@@ -438,6 +442,25 @@ function passTheCheck(mysqli $db,$id){
         invite(base64_decode($row['email']));
     }
 }
+
+function unPassTheCheck(mysqli $db,$id){
+    $sql="SELECT email FROM tbl_apply WHERE id = $id";
+    $result=$db->query($sql);
+    if($result->num_rows==0){
+        $return=array(
+            'code' => '404',
+            'info'=>'cannot find the information',
+            'msg' => '找不到指定的信息',
+        );
+        echo json_encode($result);
+        exit();
+    }else{
+        $row=$result->fetch_assoc();
+        invite(base64_decode($row['email']));
+    }
+}
+
+
 /**
  * insert key to database
  * @param mysqli $db

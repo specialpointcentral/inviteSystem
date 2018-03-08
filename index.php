@@ -1,0 +1,224 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: huqi1
+ * Date: 2018/2/16
+ * Time: 20:41
+ */
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/invite.css">
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+    <title>百川PT邀请码自助申请平台</title>
+</head>
+<body>
+<div class="container-fluid headers">
+    <div class="container">
+        <div class="media">
+            <div class="media-left media-middle">
+                <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNjEyMWI1NDEzOCB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE2MTIxYjU0MTM4Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMy4xNzk2ODc1IiB5PSIzNi41NTYyNSI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" alt="BCPT">
+            </div>
+            <div class="media-body">
+                <h1 class="media-heading">百川PT邀请码自助申请平台</h1>
+                <p>海纳百川，高速分享</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-inSchool-tab" data-toggle="pill" href="#pills-inSchool" role="tab" aria-controls="pills-inSchool" aria-selected="true">校内申请</a>
+        </li>
+        <li class="nav-item nav-link">|</li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-outSchool-tab" data-toggle="pill" href="#pills-outSchool" role="tab" aria-controls="pills-outSchool" aria-selected="false">校外申请</a>
+        </li>
+    </ul>
+    <hr />
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-inSchool" role="tabpanel" aria-labelledby="pills-inSchool-tab">
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">校内申请说明</h4>
+                <p>此通道仅限于校内申请</p>
+            </div>
+            <form action="ajax.php" method="post" id="inSchool">
+                <!--flag 1 is inSchool-->
+                <input hidden name="flag" value="1">
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group col">
+                        <select class="form-control " name="sex" >
+                            <option value ="男">男</option>
+                            <option value ="女">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="id" placeholder="学号">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="phone" placeholder="手机号码">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="time" placeholder="平均上网时间/天">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="disk" placeholder="硬盘大小">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <select class="form-control " name="school" >
+                            <option value ="材料科学与工程学院">材料科学与工程学院</option>
+                            <option value ="计算机科学与技术学院/软件学院">计算机科学与技术学院/软件学院</option>
+                            <option value ="船舶与海洋工程学院">船舶与海洋工程学院</option>
+                            <option value ="汽车工程学院">汽车工程学院</option>
+                            <option value ="信息与电气工程学院">信息与电气工程学院</option>
+                            <option value ="海洋科学与技术学院">海洋科学与技术学院</option>
+                            <option value ="经济管理学院">经济管理学院</option>
+                            <option value ="土木工程系">土木工程系</option>
+                            <option value ="理学院">理学院</option>
+                            <option value ="语言文学学院">语言文学学院</option>
+                            <option value ="其他学院">其他学院</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <input type="email" class="form-control " name="email" placeholder="E-mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="favorite">喜好的资源类型</label>
+                    <div class="btn-group-toggle" data-toggle="buttons" id="favorite">
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="游戏资源"> 游戏资源
+                        </label>
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="软件资源"> 软件资源
+                        </label>
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="欧美电影"> 欧美电影
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reason">希望加入百川PT的理由</label>
+                    <textarea class="form-control col-12" id="reason" name="reason" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="other">备注</label>
+                    <textarea class="form-control col-12" id="other" name="other" rows="5"></textarea>
+                </div>
+
+                <input class="btn btn-outline-success col" id="btn_submit_in" type="submit" value="提交">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="pills-outSchool" role="tabpanel" aria-labelledby="pills-outSchool-tab">
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">校外申请说明</h4>
+                <p>此通道仅限于校外申请</p>
+            </div>
+            <form action="ajax.php" method="post" id="outSchool">
+                <!--flag 2 is outSchool-->
+                <input hidden name="flag" value="2">
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control " name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group col">
+                        <select class="form-control " name="sex">
+                            <option value ="男">男</option>
+                            <option value ="女">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <select class="form-control " name="work" onclick="isStudent(this)">
+                            <option value ="学生">学生</option>
+                            <option value ="其他行业">其他行业</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control" name="phone" placeholder="手机号码">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" name="time" placeholder="平均上网时间/天">
+                    </div>
+                    <div class="form-group col">
+                        <input type="text" class="form-control" name="disk" placeholder="硬盘大小">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control" id="school" name="school" placeholder="学校（如果是学生请填写）">
+                    </div>
+                    <div class="form-group col">
+                        <input type="email" class="form-control" name="email" placeholder="E-mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="favorite2">喜好的资源类型</label>
+                    <div class="btn-group-toggle" data-toggle="buttons" id="favorite2">
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="游戏资源"> 游戏资源
+                        </label>
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="软件资源"> 软件资源
+                        </label>
+                        <label class="btn btn-secondary btn-outline-dark">
+                            <input type="checkbox" autocomplete="off" name="favorite[]" value="欧美电影"> 欧美电影
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reason2">希望加入百川PT的理由</label>
+                    <textarea class="form-control col-12" id="reason2" name="reason" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="other2">备注</label>
+                    <textarea class="form-control col-12" id="other2" name="other" rows="5"></textarea>
+                </div>
+
+                <input class="btn btn-outline-success col" id="btn_submit_out" type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="container-fluid footers">
+    <div class="container">
+        <!--<info></info>-->
+
+        <p>&copy;百川PT-哈尔滨工业大学</p>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
+<script src="js/formCheck.js"></script>
+<script src="js/ajax.js"></script>
+</body>
+
+</html>
